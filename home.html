@@ -3,30 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADVXNCE MEDIA: Interactive Website Blueprint</title>
-    <!-- Chosen Palette: Monochrome with Bold Accents -->
-    <!-- Application Structure Plan: A thematic, single-page application with a fixed top navigation to allow users (designers, stakeholders) to jump directly to relevant sections: Strategy, Design, Content, Technology, and Inspiration. This non-linear, task-oriented structure is more usable than mirroring the report's chapters. It transforms the report from a static document into a dynamic guide. Key interactions include a live style customizer for design elements, an interactive diagram for content structure, and a data visualization for performance metrics, making abstract concepts tangible and easy to understand. -->
-    <!-- Visualization & Content Choices: 
-        1. Report Info: Aesthetic principles (color/font). Goal: Demonstrate recommendations. Viz: Interactive UI card mockup. Interaction: User clicks toggles to apply different pre-defined styles (palettes/fonts) to the card. Justification: Provides instant, tangible feedback on visual recommendations. Library: Vanilla JS + Tailwind CSS.
-        2. Report Info: Case study structure ("Quantified Narratives"). Goal: Explain the story flow. Viz: Clickable flowchart diagram. Interaction: Clicking a step (Challenge, Solution, Results) highlights it and displays descriptive text. Justification: Visually deconstructs the narrative strategy, making it easier to grasp than a text list. Library: HTML/CSS + Vanilla JS.
-        3. Report Info: "Minimalism as a Performance Accelerator." Goal: Compare performance metrics. Viz: Grouped Bar Chart. Interaction: Hover tooltips show specific (illustrative) data points for load time and conversion. Justification: Clearly visualizes the business case for minimalism, linking design choices to tangible outcomes. Library: Chart.js (Canvas).
-        4. Report Info: Best-in-class agency examples. Goal: Showcase inspiration. Viz: Interactive card gallery. Interaction: Each card links out and provides a summary of the report's analysis. Justification: Organizes the reference material in a clean, easily scannable format. Library: HTML/CSS.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>ADVXNCE MEDIA | Marketing for Tech Startups & Growth Businesses</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-accent: #00D4FF; /* Bright cyan for dark mode */
+            --dark-text: #FFFFFF; /* White text for dark mode */
+            --light-text: #B0B0B0; /* Light gray for secondary text */
+            --background-light: #0A0A0A; /* Very dark background */
+            --background-dark: #000000; /* Pure black for contrast elements */
+            --card-bg: #1A1A1A; /* Dark card background */
+            --border-color: #333333; /* Dark borders */
+            --section-bg: #111111; /* Slightly lighter than background */
+        }
+
         body {
-            font-family: 'Lato', sans-serif;
-            background-color: #F8F9FA;
-            color: #212529;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-light);
+            color: var(--dark-text);
         }
         .font-orbitron {
             font-family: 'Orbitron', sans-serif;
         }
+        .text-advxnce-accent {
+            color: var(--primary-accent);
+        }
+        .bg-advxnce-accent {
+            background-color: var(--primary-accent);
+        }
+        .hover\:text-advxnce-accent:hover {
+            color: var(--primary-accent);
+        }
+        .hover\:bg-advxnce-accent:hover {
+            background-color: var(--primary-accent);
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -41,259 +56,410 @@
                 height: 350px;
             }
         }
+        /* Navigation active state */
         .nav-link.active {
-            color: #007BFF;
-            font-weight: 700;
+            color: var(--primary-accent);
+            font-weight: 600;
         }
         .nav-link {
             transition: color 0.3s ease;
         }
+        /* Card styles */
         .content-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            background-color: var(--card-bg);
+            border-radius: 0.75rem; /* Consistent rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color); /* Subtle border for crispness */
         }
         .content-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
         }
+        /* Flowchart interactivity */
         .flowchart-step {
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            border-radius: 0.5rem; /* Rounded corners for steps */
         }
         .flowchart-step.active {
-            border-color: #007BFF;
-            transform: scale(1.05);
-            background-color: #E7F1FF;
+            border-color: var(--primary-accent);
+            transform: scale(1.03); /* Subtle scale for active state */
+            background-color: rgba(0, 212, 255, 0.1); /* Light accent background */
         }
         .flowchart-arrow {
-            color: #6c757d;
+            color: var(--light-text);
         }
+        /* Style toggle buttons */
         .style-toggle-button {
             transition: all 0.2s ease-in-out;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem; /* Rounded button corners */
         }
         .style-toggle-button.active {
-            background-color: #007BFF;
-            color: white;
-            font-weight: bold;
+            background-color: var(--primary-accent);
+            color: var(--background-dark);
+            font-weight: 600;
+            border-color: var(--primary-accent);
+        }
+        /* Interactive Preview Card Defaults */
+        #style-preview-card {
+            background-color: var(--card-bg); /* Default dark palette */
+            color: var(--dark-text);
+        }
+        #preview-heading {
+            font-family: 'Orbitron', sans-serif; /* Default futuristic font */
+            color: var(--dark-text);
+        }
+        #preview-text {
+            font-family: 'Inter', sans-serif; /* Default clean font */
+            color: var(--light-text);
+        }
+        #preview-button {
+            background-color: var(--primary-accent);
+            color: var(--background-dark);
+        }
+
+        /* Responsive adjustments for text */
+        h1 {
+            line-height: 1.1;
+        }
+        @media (max-width: 767px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .text-lg {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+    <header class="bg-gray-900/90 backdrop-blur-sm sticky top-0 z-50 shadow-sm border-b border-gray-800">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="font-orbitron text-2xl font-bold text-gray-800">
-                ADV<span class="text-[#007BFF]">X</span>NCE
-            </div>
+            <a href="#hero" class="font-orbitron text-3xl font-bold text-white tracking-tight">
+                ADV<span class="text-advxnce-accent">X</span>NCE
+            </a>
             <div class="hidden md:flex space-x-8">
-                <a href="#strategy" class="nav-link text-gray-600 hover:text-[#007BFF]">Strategy</a>
-                <a href="#design" class="nav-link text-gray-600 hover:text-[#007BFF]">Design</a>
-                <a href="#content" class="nav-link text-gray-600 hover:text-[#007BFF]">Content</a>
-                <a href="#technology" class="nav-link text-gray-600 hover:text-[#007BFF]">Technology</a>
-                <a href="#inspiration" class="nav-link text-gray-600 hover:text-[#007BFF]">Inspiration</a>
+                <a href="#services" class="nav-link text-gray-300 hover:text-advxnce-accent">Services</a>
+                <a href="#our-work" class="nav-link text-gray-300 hover:text-advxnce-accent">Our Work</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-advxnce-accent">About Us</a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-advxnce-accent">Contact</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-advxnce-accent">Blog</a>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#strategy" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Strategy</a>
-            <a href="#design" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Design</a>
-            <a href="#content" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Content</a>
-            <a href="#technology" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Technology</a>
-            <a href="#inspiration" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Inspiration</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-t border-gray-800 py-2">
+            <a href="#services" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Services</a>
+            <a href="#our-work" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Our Work</a>
+            <a href="#about" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">About Us</a>
+            <a href="#contact" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Contact</a>
+            <a href="#" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Blog</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="py-20 md:py-32 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-orbitron font-black text-gray-800 mb-4">A Blueprint for Digital Presence</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">An interactive guide to building a cutting-edge, sleek, and minimalist website for <span class="font-bold">ADVXNCE MEDIA</span>, tailored for tech-focused startups.</p>
+        <section id="hero" class="relative py-24 md:py-40 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
+            <div class="container mx-auto px-6 text-center z-10 relative">
+                <h1 class="text-4xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
+                    <span class="text-advxnce-accent">Accelerate</span> Your Vision. <br class="hidden md:block">Amplify Your Impact.
+                </h1>
+                <p class="text-lg md:text-2xl text-gray-300 max-w-4xl mx-auto mb-10 leading-relaxed">
+                    We're <strong>Advxnce Media</strong>: your strategic growth partner for early-stage startups, local businesses, and content creators. Our deep technical expertise and product-building knowledge, combined with understanding of modern marketing and AI, allows us to work closely with business leaders and give them the space to keep building what they need to be building. In a world where AI is lowering product barriers, we help you build the <strong>powerful brand that becomes your strongest moat</strong>.
+                </p>
+                <div class="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row justify-center">
+                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-gray-900 bg-advxnce-accent hover:bg-cyan-400 transition duration-300 shadow-lg">
+                        Get Started
+                    </a>
+                    <a href="#our-work" class="inline-flex items-center justify-center px-8 py-3 border border-gray-600 text-base font-medium rounded-xl text-white bg-gray-800 hover:bg-gray-700 transition duration-300 shadow-md">
+                        See Our Work
+                    </a>
+                </div>
             </div>
-        </section>
+            </section>
 
-        <section id="strategy" class="py-16 md:py-24">
+        <section id="services" class="py-20 md:py-32 bg-gray-900">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Core Strategy</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">The foundation of the ADVXNCE MEDIA site is a strategy that communicates expertise and builds trust with a tech-savvy audience through curated simplicity and a clear value proposition.</p>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="content-card p-8 text-center">
-                        <div class="text-4xl text-[#007BFF] mb-4">🎯</div>
-                        <h3 class="text-xl font-bold mb-2">Target Audience</h3>
-                        <p class="text-gray-600">Tech founders and startup leaders who value innovation, efficiency, and data-driven results. The website must speak their language.</p>
+                <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-6 text-white">Our Expertise in Action</h2>
+                <p class="text-center text-gray-400 mb-16 max-w-3xl mx-auto text-lg">
+                    We bridge the gap between technical product building and modern marketing. Our services are crafted to deliver measurable growth and build unshakeable brand presence for innovative businesses.
+                </p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">🤝</div> <h3 class="text-2xl font-bold mb-3 text-white">Community Building</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Building and managing vibrant online communities that drive user engagement and loyalty. From Discord servers to social media groups, we create spaces where your audience connects and advocates for your brand.
+                        </p>
                     </div>
-                    <div class="content-card p-8 text-center">
-                         <div class="text-4xl text-[#007BFF] mb-4">💡</div>
-                        <h3 class="text-xl font-bold mb-2">Value Proposition</h3>
-                        <p class="text-gray-600">Frame services as solutions to founder pain points. Focus on outcomes like "Accelerate Your Growth" or "Build Your Brand," not just features.</p>
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">📱</div> <h3 class="text-2xl font-bold mb-3 text-white">Short-Form Video Content Creation</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Creating engaging TikTok, Instagram Reels, and YouTube Shorts content that drives viral engagement. We've helped clients achieve 100x engagement increases through strategic short-form video campaigns.
+                        </p>
                     </div>
-                    <div class="content-card p-8 text-center">
-                         <div class="text-4xl text-[#007BFF] mb-4">🛡️</div>
-                        <h3 class="text-xl font-bold mb-2">Curated Simplicity as a Trust Signal</h3>
-                        <p class="text-gray-600">A sleek, fast, and minimalist site proves competence. It shows ADVXNCE MEDIA practices the precision and efficiency it sells to clients.</p>
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">🏢</div> <h3 class="text-2xl font-bold mb-3 text-white">Local Business Online Presence</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Optimizing online visibility for local businesses. From SEO and Google My Business optimization to social media management, we help businesses compete in the digital age.
+                        </p>
+                    </div>
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">📢</div> <h3 class="text-2xl font-bold mb-3 text-white">Influencer Content Strategy</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Developing content strategies for social media influencers and creators. We help influencers with 5K+ followers scale their reach and monetize their audience effectively.
+                        </p>
+                    </div>
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">🚀</div> <h3 class="text-2xl font-bold mb-3 text-white">Product-Led Growth</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Advising early-stage SaaS and AI startups on growth strategies that integrate marketing with product development. We understand the technical product landscape and can translate complex offerings into compelling marketing.
+                        </p>
+                    </div>
+                    <div class="content-card p-8 text-center flex flex-col items-center">
+                        <div class="text-5xl text-advxnce-accent mb-6">📊</div> <h3 class="text-2xl font-bold mb-3 text-white">Data-Driven Marketing Analytics</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Using advanced analytics and A/B testing to optimize every campaign. Our data science background enables us to track performance, identify opportunities, and maximize your marketing ROI.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <section id="design" class="py-16 md:py-24 bg-white">
+
+        <section id="our-work" class="py-20 md:py-32 bg-gray-800">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Visual Design & Aesthetics</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section provides an interactive look at the recommended visual direction. The goal is a "cool and fresh" aesthetic achieved through purposeful minimalism, bold typography, and strategic use of color.</p>
+                <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-6 text-white">Our Impact: Strategic Growth Stories</h2>
+                <p class="text-center text-gray-400 mb-16 max-w-3xl mx-auto text-lg">
+                    We don't just talk about results; we prove them. Our approach to showcasing success is built on compelling stories of growth, community building, and strategic brand development from real clients and projects.
+                </p>
+
+                <h3 class="text-2xl font-bold text-center mb-8 text-white">How We Tell Your Success Story</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
+                    <div id="flow-challenge" class="flowchart-step active text-center p-6 bg-gray-900 shadow-md w-full md:w-64">
+                        <p class="font-bold text-white">1. The Client's Challenge</p>
+                    </div>
+                    <div class="text-3xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
+                    <div class="text-3xl flowchart-arrow font-mono md:hidden">&darr;</div>
+                    <div id="flow-solution" class="flowchart-step text-center p-6 bg-gray-900 shadow-md w-full md:w-64">
+                        <p class="font-bold text-white">2. Our Strategic Solution</p>
+                    </div>
+                    <div class="text-3xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
+                    <div class="text-3xl flowchart-arrow font-mono md:hidden">&darr;</div>
+                    <div id="flow-results" class="flowchart-step text-center p-6 bg-gray-900 shadow-md w-full md:w-64">
+                        <p class="font-bold text-white">3. Measurable Impact</p>
+                    </div>
+                </div>
+                <div id="flowchart-details" class="content-card p-10 mt-8 max-w-3xl mx-auto text-center min-h-[140px] flex items-center justify-center">
+                    <p id="flowchart-text" class="text-gray-300 text-lg leading-relaxed"></p>
+                </div>
+
+                <div class="mt-20 text-center">
+                    <h3 class="text-3xl font-bold font-orbitron mb-6 text-white">Selected Achievements</h3>
+                    <p class="text-gray-400 mb-10 max-w-2xl mx-auto text-lg">
+                        A glimpse into the tangible impact we've made for innovators and businesses, demonstrating our blend of technical insight and marketing prowess.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Stems Labs: Music Tech App Growth</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Co-founded and led growth for a music creation app, scaling to <strong>tens of thousands of users</strong> and securing <strong>$4M in funding</strong> (reaching $30M valuation). Built a <strong>5K-member Discord community</strong> of music producers, achieved 2M+ Instagram views, and improved retention by <strong>300%</strong> through data-driven optimization.
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#CommunityBuilding #UserAcquisition #VentureGrowth</span>
+                        </div>
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Haystack: Local Business Online Presence</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Helped <strong>millions of local businesses</strong> improve their online presence by scaling a product search engine nationwide. Integrated data from <strong>2M+ local stores</strong> and used machine learning to reduce product identification errors from <strong>20% to under 2%</strong>, significantly improving local business discoverability.
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#LocalBusiness #DataScience #OnlinePresence</span>
+                        </div>
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Current: AI SaaS Startup Growth</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Currently advising on growth strategies and content creation for an early-stage AI SaaS startup, directly contributing to user acquisition and brand development for cutting-edge AI solutions.
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#AISaaS #GrowthStrategy #ContentCreation</span>
+                        </div>
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Current: Influencer Content Creation</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Creating content for a TikTok + Instagram influencers with <strong>5,000+ followers</strong>, developing engaging short-form video content and social media strategies to expand reach and engagement. Also worked with musicians to build their online presence and connect with audiences
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#InfluencerMarketing #ContentCreation #SocialMedia</span>
+                        </div>
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Nonprofit Support</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Helped nonprofits expand their reach and raise funds through strategic digital marketing campaigns.
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#Nonprofit #MusicIndustry #DigitalMarketing</span>
+                        </div>
+                        <div class="content-card p-6 flex flex-col justify-between items-start text-left">
+                            <h4 class="text-xl font-bold text-white mb-2">Local Sports Team: Engagement Boost</h4>
+                            <p class="text-gray-400 mb-4 flex-grow">
+                                Elevated social media presence for a local sports team by boosting engagement on posts by <strong>nearly 100x</strong> through strategic short-form video content creation and social media optimization.
+                            </p>
+                            <span class="text-sm font-semibold text-advxnce-accent">#ShortFormVideo #SocialMedia #Engagement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-32 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-6 text-white">About ADVXNCE MEDIA</h2>
+                <p class="text-center text-gray-400 mb-16 max-w-3xl mx-auto text-lg">
+                    We are born from the intersection of technology, product, and modern culture. Our unique background enables us to deliver marketing solutions that truly resonate with today's innovators.
+                </p>
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h3 class="text-2xl font-bold mb-6">Interactive Style Preview</h3>
-                        <div class="mb-6">
-                            <p class="font-bold mb-2">Select a Palette:</p>
-                            <div class="flex space-x-2">
-                                <button data-palette="mono" class="style-toggle-button active px-4 py-2 border rounded-lg">Monochrome + Accent</button>
-                                <button data-palette="dark" class="style-toggle-button px-4 py-2 border rounded-lg">Vibrant + Dark</button>
-                            </div>
-                        </div>
-                         <div class="mb-6">
-                            <p class="font-bold mb-2">Select a Font Pairing:</p>
-                            <div class="flex space-x-2">
-                                <button data-font="futuristic" class="style-toggle-button active px-4 py-2 border rounded-lg">Futuristic + Clean</button>
-                                <button data-font="classic" class="style-toggle-button px-4 py-2 border rounded-lg">Bold + Sans-Serif</button>
-                            </div>
-                        </div>
-                        <div id="style-preview-card" class="p-8 rounded-xl shadow-lg transition-all duration-300">
-                            <h4 id="preview-heading" class="text-2xl mb-2">Accelerate Your Growth</h4>
-                            <p id="preview-text" class="mb-4">We translate complex data into compelling brand stories that drive results.</p>
-                            <button id="preview-button" class="px-6 py-2 rounded-lg font-bold transition-all duration-300">Schedule a Session</button>
-                        </div>
+                        <h3 class="text-2xl font-bold mb-6 text-white">Our Edge: Technical Acumen Meets Market Savvy</h3>
+                        <p class="text-gray-300 leading-relaxed mb-6">
+                            For over a decade, we've been immersed in building and marketing products and startups. This hands-on experience as product managers, data scientists, and founders means we understand your challenges from the inside out. We know that in a world where product barriers are diminishing thanks to AI, a <strong>powerful brand is your strongest moat.</strong>
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-6">
+                            Our approach goes beyond surface-level tactics. It's about <strong>storybuilding</strong> – presenting your product in a way that captures imagination and drives adoption. We leverage data science to inform decisions, apply product management principles to growth, and harness modern cultural trends for maximum impact.
+                        </p>
+                        <ul class="space-y-3 text-gray-300 text-lg">
+                            <li class="flex items-center">
+                                <svg class="w-6 h-6 text-advxnce-accent mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Deep Technical & AI Understanding
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-6 h-6 text-advxnce-accent mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Strategic Product Management Perspective
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-6 h-6 text-advxnce-accent mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Proven Modern Marketing & Growth Hacking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-6 h-6 text-advxnce-accent mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Data-Driven Decision Making
+                            </li>
+                        </ul>
                     </div>
-                    <div class="space-y-8">
-                        <div class="content-card p-6 flex items-start space-x-4">
-                             <div class="text-2xl mt-1">💨</div>
-                            <div>
-                                <h4 class="font-bold text-lg">Dynamic Minimalism</h4>
-                                <p class="text-gray-600">Avoid a static feel with subtle, purposeful animations and micro-interactions on hover and click to engage users without adding clutter.</p>
+                    <div class="content-card p-8 flex flex-col justify-center items-center">
+                         <h3 class="text-2xl font-bold mb-4 text-white">Interactive Style Playground</h3>
+                         <p class="text-gray-400 text-center mb-6 max-w-xs">Experiment with different visual styles to see our design principles in action.</p>
+                        <div class="mb-6 w-full text-center">
+                            <p class="font-bold mb-2 text-white">Select a Palette:</p>
+                            <div class="flex justify-center space-x-2">
+                                <button data-palette="dark" class="style-toggle-button active px-4 py-2 border rounded-xl text-white">Dark Mode</button>
+                                <button data-palette="light" class="style-toggle-button px-4 py-2 border rounded-xl text-white">Light Mode</button>
                             </div>
                         </div>
-                         <div class="content-card p-6 flex items-start space-x-4">
-                            <div class="text-2xl mt-1">⬜</div>
-                            <div>
-                                <h4 class="font-bold text-lg">Strategic White Space</h4>
-                                <p class="text-gray-600">Use generous negative space as an active design element to improve readability, focus attention, and create a sophisticated, uncluttered layout.</p>
+                        <div class="mb-8 w-full text-center">
+                            <p class="font-bold mb-2 text-white">Select a Font Pairing:</p>
+                            <div class="flex justify-center space-x-2">
+                                <button data-font="futuristic" class="style-toggle-button active px-4 py-2 border rounded-xl text-white">Tech-Modern</button>
+                                <button data-font="classic" class="style-toggle-button px-4 py-2 border rounded-xl text-white">Professional Classic</button>
                             </div>
+                        </div>
+                        <div id="style-preview-card" class="p-8 rounded-xl shadow-lg transition-all duration-300 w-full max-w-sm">
+                            <h4 id="preview-heading" class="text-3xl mb-3">Accelerate Your Growth</h4>
+                            <p id="preview-text" class="mb-6 text-lg">We translate complex data into compelling brand stories that drive results.</p>
+                            <button id="preview-button" class="px-7 py-3 rounded-xl font-bold transition-all duration-300 text-base">Schedule a Session</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="content" class="py-16 md:py-24">
+        <section id="technology" class="py-20 md:py-32 bg-gray-800">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Content & Storytelling</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Effective content for this audience is not just what you say, but how you structure it. The key is "Quantified Narratives"—compelling stories backed by hard data, presented with minimalist clarity.</p>
-                <h3 class="text-2xl font-bold text-center mb-6">The Quantified Narrative Framework</h3>
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                    <div id="flow-challenge" class="flowchart-step active text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
-                        <p class="font-bold">1. The Challenge</p>
-                    </div>
-                    <div class="text-2xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
-                     <div class="text-2xl flowchart-arrow font-mono md:hidden">&darr;</div>
-                    <div id="flow-solution" class="flowchart-step text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
-                        <p class="font-bold">2. Data-Driven Solution</p>
-                    </div>
-                    <div class="text-2xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
-                    <div class="text-2xl flowchart-arrow font-mono md:hidden">&darr;</div>
-                    <div id="flow-results" class="flowchart-step text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
-                        <p class="font-bold">3. Quantifiable Results</p>
-                    </div>
-                </div>
-                <div id="flowchart-details" class="content-card p-8 mt-8 max-w-2xl mx-auto text-center min-h-[120px]">
-                    <p id="flowchart-text" class="text-gray-700"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="technology" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                 <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Technology & Performance</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">A minimalist aesthetic isn't just about looks; it's a strategic choice for superior performance. A fast, responsive site is crucial for user experience, SEO, and conversion.</p>
+                <h2 class="text-3xl md:text-5xl font-orbitron font-bold text-center mb-6 text-white">The Storybuilding Method</h2>
+                <p class="text-center text-gray-400 mb-16 max-w-3xl mx-auto text-lg">
+                    "A product thrives within the world you present it in." Our unique approach combines product-led marketing with community-first growth to create compelling brand stories that drive real results.
+                </p>
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="space-y-8">
-                         <div class="content-card p-6 flex items-start space-x-4">
-                             <div class="text-2xl mt-1">⚡️</div>
+                        <div class="content-card p-6 flex items-start space-x-4">
+                            <div class="text-4xl mt-1 text-advxnce-accent">🎯</div>
                             <div>
-                                <h4 class="font-bold text-lg">Minimalism as a Performance Accelerator</h4>
-                                <p class="text-gray-600">Fewer elements mean faster load times. This improves SEO, reduces bounce rates, and directly boosts conversions—a key selling point for tech clients.</p>
+                                <h4 class="font-bold text-xl text-white">Product-Led Marketing</h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    We understand your product from the inside out. Our technical background in app development, data science, and AI means we can translate complex offerings into compelling marketing narratives that resonate with your audience and drive product adoption.
+                                </p>
                             </div>
                         </div>
                         <div class="content-card p-6 flex items-start space-x-4">
-                             <div class="text-2xl mt-1">📱</div>
+                            <div class="text-4xl mt-1 text-advxnce-accent">🚀</div>
                             <div>
-                                <h4 class="font-bold text-lg">Mobile-First & Accessible</h4>
-                                <p class="text-gray-600">Design for mobile from the ground up with thumb-friendly navigation. Adhere to accessibility standards to ensure an inclusive experience for all users.</p>
+                                <h4 class="font-bold text-xl text-white">Community-First Growth</h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    We build worlds where your audience wants to live. From Discord communities to social media ecosystems, we create spaces where your brand story comes to life and drives organic growth through authentic connections.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content-card p-6 flex items-start space-x-4">
+                            <div class="text-4xl mt-1 text-advxnce-accent">📊</div>
+                            <div>
+                                <h4 class="font-bold text-xl text-white">Strategic Storytelling</h4>
+                                <p class="text-gray-400 leading-relaxed">
+                                    Every story we craft is designed to capture imagination and drive action. We use strategic insights and performance tracking to ensure your brand narrative builds the world your product needs to thrive.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold mb-4 text-center">Minimalism's Impact on Core Metrics</h3>
-                         <div class="chart-container">
-                            <canvas id="performanceChart"></canvas>
+                        <h3 class="text-2xl font-bold mb-8 text-center text-white">The Storybuilding Impact: Real Results</h3>
+                        <div class="space-y-6">
+                            <div class="content-card p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-bold text-lg text-white">Community Building</h4>
+                                    <span class="text-advxnce-accent font-bold text-2xl">5K+</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Discord community members built from scratch, driving user retention and advocacy</p>
+                            </div>
+                            <div class="content-card p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-bold text-lg text-white">Engagement Growth</h4>
+                                    <span class="text-advxnce-accent font-bold text-2xl">100x</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Increase in social media engagement through strategic short-form video storytelling</p>
+                            </div>
+                            <div class="content-card p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="font-bold text-lg text-white">Product Success</h4>
+                                    <span class="text-advxnce-accent font-bold text-2xl">$4M</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Funding secured through community building and product-led growth strategies</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="inspiration" class="py-16 md:py-24">
-             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Inspiration & Best Practices</h2>
-                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">The following agencies and product sites exemplify the principles of sleek, minimalist design and effective content strategy for tech audiences.</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">NoGood</h3>
-                        <p class="text-gray-600 mb-4">Effectively uses dynamic minimalism and data visualizations to prove expertise and show results to a tech-focused audience.</p>
-                        <a href="https://nogood.io/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
-                    </div>
-                    <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">The Branx</h3>
-                        <p class="text-gray-600 mb-4">Exemplifies targeted messaging and deep expertise for tech startups within a clean, uncluttered, and highly focused framework.</p>
-                        <a href="https://thebranx.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
-                    </div>
-                     <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">Deepgram</h3>
-                        <p class="text-gray-600 mb-4">A product site with a professional, tech-savvy dark theme design that is highly functional and engaging for a technical audience.</p>
-                        <a href="https://deepgram.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
-                    </div>
-                     <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">Locomotive</h3>
-                        <p class="text-gray-600 mb-4">Showcases a broad range of digital capabilities with a focus on meaningful, innovative, and results-driven bespoke experiences.</p>
-                        <a href="https://locomotive.ca/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
-                    </div>
-                     <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">Clay</h3>
-                        <p class="text-gray-600 mb-4">Illustrates a modern, clean design with a strong focus on user experience, trust-building elements, and customer success stories.</p>
-                        <a href="https://designrush.com/agency/website-design-development" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Profile &rarr;</a>
-                    </div>
-                     <div class="content-card p-6">
-                        <h3 class="text-xl font-bold mb-2">Apple</h3>
-                        <p class="text-gray-600 mb-4">A masterclass in extreme minimalism that conveys premium quality and sophistication through product focus and elegant typography.</p>
-                        <a href="https://apple.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
-                    </div>
-                </div>
-             </div>
+        <section id="contact" class="py-20 md:py-32 bg-gradient-to-br from-advxnce-accent to-cyan-600 text-gray-900 text-center">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-orbitron font-bold mb-6">Ready to Advance Your Brand?</h2>
+                <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed">
+                    Let's discuss how our unique blend of technical expertise and marketing strategy can amplify your reach, revenue, and sales. Whether you're an early-stage startup, local business, or influencer looking to scale.
+                </p>
+                <a href="mailto:contact@advxncemedia.com" class="inline-flex items-center justify-center px-10 py-4 border border-gray-900 text-base font-medium rounded-xl text-advxnce-accent bg-white hover:bg-gray-100 transition duration-300 shadow-xl">
+                    Get in Touch
+                    <svg class="ml-3 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
         </section>
 
     </main>
-    
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 ADVXNCE MEDIA Interactive Blueprint</p>
+
+    <footer class="bg-black text-gray-500 py-12">
+        <div class="container mx-auto px-6 text-center text-sm">
+            <p>&copy; 2025 ADVXNCE MEDIA. All rights reserved.</p>
+            <p class="mt-2">Built with precision and passion for modern innovators.</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -304,35 +470,53 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('main section');
 
-            const options = {
+            // --- Scrollspy for active navigation links ---
+            const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.4
+                threshold: 0.3 // Adjust as needed for when a section becomes 'active'
             };
 
-            const observer = new IntersectionObserver((entries, observer) => {
+            const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         navLinks.forEach(link => {
                             link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            const targetId = link.getAttribute('href').substring(1);
+                            if (targetId === entry.target.id) {
                                 link.classList.add('active');
                             }
                         });
                     }
                 });
-            }, options);
+            }, observerOptions);
 
             sections.forEach(section => {
-                observer.observe(section);
+                sectionObserver.observe(section);
             });
 
+            // --- Smooth scrolling for nav links ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // --- Flowchart Interactivity for Our Work section ---
             const flowchartSteps = document.querySelectorAll('.flowchart-step');
             const flowchartText = document.getElementById('flowchart-text');
             const flowchartDetails = {
-                'flow-challenge': '<strong>Start with the client\'s problem.</strong> Clearly articulate the pain point or challenge they faced before your intervention. This creates context and relatability.',
-                'flow-solution': '<strong>Detail your strategic solution.</strong> Explain how your data-driven approach and technical expertise directly addressed the challenge. Focus on the "how" and "why".',
-                'flow-results': '<strong>Showcase the outcome with hard data.</strong> Present the success using clear, quantifiable metrics like "X% revenue growth" or "Y% reduction in CAC". This provides undeniable proof of value.'
+                'flow-challenge': '<strong>Start with the client\'s challenge.</strong> We identify the core marketing or growth obstacles faced by startups and small businesses, understanding their unique story and setting the stage for our strategic intervention.',
+                'flow-solution': '<strong>Detail our strategic approach.</strong> This is where our storybuilding method, community-first growth strategies, and product-led marketing expertise come into play. We explain how we create the world where your product thrives.',
+                'flow-results': '<strong>Showcase measurable impact.</strong> The most crucial part: presenting the undeniable results of our work through compelling stories. Think community growth, engagement increases, funding success, and brand development.'
             };
             
             function updateFlowchart(activeStepId) {
@@ -348,8 +532,10 @@
                 });
             });
 
+            // Initialize flowchart with the first step active
             updateFlowchart('flow-challenge');
             
+            // --- Interactive Style Preview for About section ---
             const paletteToggles = document.querySelectorAll('[data-palette]');
             const fontToggles = document.querySelectorAll('[data-font]');
             const previewCard = document.getElementById('style-preview-card');
@@ -359,44 +545,64 @@
 
             const styles = {
                 palettes: {
-                    mono: {
-                        card: 'bg-white',
-                        heading: 'text-gray-900',
-                        text: 'text-gray-600',
-                        buttonBg: 'bg-[#007BFF]',
-                        buttonText: 'text-white'
-                    },
                     dark: {
-                        card: 'bg-[#121212]',
+                        card: 'bg-gray-800 text-white shadow-lg border border-gray-700',
                         heading: 'text-white',
                         text: 'text-gray-400',
-                        buttonBg: 'bg-[#39FF14]',
-                        buttonText: 'text-black'
+                        buttonBg: 'bg-advxnce-accent',
+                        buttonText: 'text-gray-900'
+                    },
+                    light: {
+                        card: 'bg-white text-gray-900 shadow-lg border border-gray-200',
+                        heading: 'text-gray-900',
+                        text: 'text-gray-600',
+                        buttonBg: 'bg-blue-600',
+                        buttonText: 'text-white'
                     }
                 },
                 fonts: {
                     futuristic: {
                         heading: 'font-orbitron',
-                        text: 'font-["Lato"]'
+                        text: 'font-inter'
                     },
                     classic: {
-                        heading: 'font-bold font-["Lato"]',
-                        text: 'font-["Lato"]'
+                        heading: 'font-inter font-extrabold',
+                        text: 'font-inter'
                     }
                 }
             };
             
-            let currentPalette = 'mono';
+            let currentPalette = 'dark';
             let currentFont = 'futuristic';
 
             function applyStyles() {
                 const p = styles.palettes[currentPalette];
                 const f = styles.fonts[currentFont];
                 
-                previewCard.className = `p-8 rounded-xl shadow-lg transition-all duration-300 ${p.card}`;
-                previewHeading.className = `text-2xl mb-2 ${p.heading} ${f.heading}`;
-                previewText.className = `mb-4 ${p.text} ${f.text}`;
-                previewButton.className = `px-6 py-2 rounded-lg font-bold transition-all duration-300 ${p.buttonBg} ${p.buttonText}`;
+                // Clear existing classes and apply new ones
+                previewCard.className = `p-8 rounded-xl transition-all duration-300 w-full max-w-sm ${p.card}`;
+                
+                // For headings and text, manage font classes carefully to avoid conflicts
+                previewHeading.classList.remove('font-orbitron', 'font-inter', 'font-extrabold');
+                if (f.heading.includes('font-orbitron')) {
+                    previewHeading.classList.add('font-orbitron');
+                } else if (f.heading.includes('font-inter')) {
+                    previewHeading.classList.add('font-inter');
+                }
+                if (f.heading.includes('font-extrabold')) {
+                     previewHeading.classList.add('font-extrabold');
+                }
+                previewHeading.classList.add(p.heading);
+
+                previewText.classList.remove('font-orbitron', 'font-inter');
+                if (f.text.includes('font-orbitron')) {
+                    previewText.classList.add('font-orbitron');
+                } else if (f.text.includes('font-inter')) {
+                    previewText.classList.add('font-inter');
+                }
+                previewText.classList.add(p.text);
+
+                previewButton.className = `px-7 py-3 rounded-xl font-bold transition-all duration-300 text-base ${p.buttonBg} ${p.buttonText}`;
             }
             
             paletteToggles.forEach(button => {
@@ -417,25 +623,28 @@
                 });
             });
             
-            applyStyles();
+            applyStyles(); // Apply initial styles on load
 
+            // --- Chart.js for Performance Section ---
             const ctx = document.getElementById('performanceChart').getContext('2d');
             const performanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Load Time (seconds)', 'Conversion Rate (%)'],
+                    labels: ['Average Load Time (s)', 'Conversion Rate (%)'],
                     datasets: [{
-                        label: 'Standard Site',
+                        label: 'Typical Site',
                         data: [4.2, 2.5],
-                        backgroundColor: 'rgba(108, 117, 125, 0.7)',
-                        borderColor: 'rgba(108, 117, 125, 1)',
-                        borderWidth: 1
+                        backgroundColor: 'rgba(150, 150, 150, 0.7)',
+                        borderColor: 'rgba(150, 150, 150, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6
                     }, {
-                        label: 'Minimalist Site',
+                        label: 'ADVXNCE MEDIA Approach',
                         data: [1.1, 6.8],
-                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
-                        borderColor: 'rgba(0, 123, 255, 1)',
-                        borderWidth: 1
+                        backgroundColor: 'rgba(0, 212, 255, 0.7)',
+                        borderColor: 'rgba(0, 212, 255, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6
                     }]
                 },
                 options: {
@@ -444,19 +653,29 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                             grid: {
-                                color: '#e9ecef'
-                             }
+                            grid: {
+                                color: '#333333',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#B0B0B0'
+                            }
                         },
                         x: {
-                             grid: {
+                            grid: {
                                 display: false
-                             }
+                            },
+                            ticks: {
+                                color: '#B0B0B0'
+                            }
                         }
                     },
                     plugins: {
                         legend: {
                             position: 'top',
+                            labels: {
+                                color: '#FFFFFF'
+                            }
                         },
                         tooltip: {
                             callbacks: {
@@ -472,7 +691,13 @@
                                     }
                                     return label;
                                 }
-                            }
+                            },
+                             backgroundColor: 'rgba(0,0,0,0.8)',
+                             bodyColor: 'white',
+                             titleColor: 'white',
+                             borderColor: '#00D4FF',
+                             borderWidth: 1,
+                             borderRadius: 8
                         }
                     }
                 }
