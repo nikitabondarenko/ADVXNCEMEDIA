@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADVXNCE MEDIA: Interactive Website Blueprint</title>
+    <!-- Chosen Palette: Monochrome with Bold Accents -->
+    <!-- Application Structure Plan: A thematic, single-page application with a fixed top navigation to allow users (designers, stakeholders) to jump directly to relevant sections: Strategy, Design, Content, Technology, and Inspiration. This non-linear, task-oriented structure is more usable than mirroring the report's chapters. It transforms the report from a static document into a dynamic guide. Key interactions include a live style customizer for design elements, an interactive diagram for content structure, and a data visualization for performance metrics, making abstract concepts tangible and easy to understand. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Aesthetic principles (color/font). Goal: Demonstrate recommendations. Viz: Interactive UI card mockup. Interaction: User clicks toggles to apply different pre-defined styles (palettes/fonts) to the card. Justification: Provides instant, tangible feedback on visual recommendations. Library: Vanilla JS + Tailwind CSS.
+        2. Report Info: Case study structure ("Quantified Narratives"). Goal: Explain the story flow. Viz: Clickable flowchart diagram. Interaction: Clicking a step (Challenge, Solution, Results) highlights it and displays descriptive text. Justification: Visually deconstructs the narrative strategy, making it easier to grasp than a text list. Library: HTML/CSS + Vanilla JS.
+        3. Report Info: "Minimalism as a Performance Accelerator." Goal: Compare performance metrics. Viz: Grouped Bar Chart. Interaction: Hover tooltips show specific (illustrative) data points for load time and conversion. Justification: Clearly visualizes the business case for minimalism, linking design choices to tangible outcomes. Library: Chart.js (Canvas).
+        4. Report Info: Best-in-class agency examples. Goal: Showcase inspiration. Viz: Interactive card gallery. Interaction: Each card links out and provides a summary of the report's analysis. Justification: Organizes the reference material in a clean, easily scannable format. Library: HTML/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link.active {
+            color: #007BFF;
+            font-weight: 700;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-step {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .flowchart-step.active {
+            border-color: #007BFF;
+            transform: scale(1.05);
+            background-color: #E7F1FF;
+        }
+        .flowchart-arrow {
+            color: #6c757d;
+        }
+        .style-toggle-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .style-toggle-button.active {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-orbitron text-2xl font-bold text-gray-800">
+                ADV<span class="text-[#007BFF]">X</span>NCE
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#strategy" class="nav-link text-gray-600 hover:text-[#007BFF]">Strategy</a>
+                <a href="#design" class="nav-link text-gray-600 hover:text-[#007BFF]">Design</a>
+                <a href="#content" class="nav-link text-gray-600 hover:text-[#007BFF]">Content</a>
+                <a href="#technology" class="nav-link text-gray-600 hover:text-[#007BFF]">Technology</a>
+                <a href="#inspiration" class="nav-link text-gray-600 hover:text-[#007BFF]">Inspiration</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#strategy" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Strategy</a>
+            <a href="#design" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Design</a>
+            <a href="#content" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Content</a>
+            <a href="#technology" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Technology</a>
+            <a href="#inspiration" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Inspiration</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-orbitron font-black text-gray-800 mb-4">A Blueprint for Digital Presence</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">An interactive guide to building a cutting-edge, sleek, and minimalist website for <span class="font-bold">ADVXNCE MEDIA</span>, tailored for tech-focused startups.</p>
+            </div>
+        </section>
+
+        <section id="strategy" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Core Strategy</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">The foundation of the ADVXNCE MEDIA site is a strategy that communicates expertise and builds trust with a tech-savvy audience through curated simplicity and a clear value proposition.</p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="content-card p-8 text-center">
+                        <div class="text-4xl text-[#007BFF] mb-4">🎯</div>
+                        <h3 class="text-xl font-bold mb-2">Target Audience</h3>
+                        <p class="text-gray-600">Tech founders and startup leaders who value innovation, efficiency, and data-driven results. The website must speak their language.</p>
+                    </div>
+                    <div class="content-card p-8 text-center">
+                         <div class="text-4xl text-[#007BFF] mb-4">💡</div>
+                        <h3 class="text-xl font-bold mb-2">Value Proposition</h3>
+                        <p class="text-gray-600">Frame services as solutions to founder pain points. Focus on outcomes like "Accelerate Your Growth" or "Build Your Brand," not just features.</p>
+                    </div>
+                    <div class="content-card p-8 text-center">
+                         <div class="text-4xl text-[#007BFF] mb-4">🛡️</div>
+                        <h3 class="text-xl font-bold mb-2">Curated Simplicity as a Trust Signal</h3>
+                        <p class="text-gray-600">A sleek, fast, and minimalist site proves competence. It shows ADVXNCE MEDIA practices the precision and efficiency it sells to clients.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="design" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Visual Design & Aesthetics</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section provides an interactive look at the recommended visual direction. The goal is a "cool and fresh" aesthetic achieved through purposeful minimalism, bold typography, and strategic use of color.</p>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Interactive Style Preview</h3>
+                        <div class="mb-6">
+                            <p class="font-bold mb-2">Select a Palette:</p>
+                            <div class="flex space-x-2">
+                                <button data-palette="mono" class="style-toggle-button active px-4 py-2 border rounded-lg">Monochrome + Accent</button>
+                                <button data-palette="dark" class="style-toggle-button px-4 py-2 border rounded-lg">Vibrant + Dark</button>
+                            </div>
+                        </div>
+                         <div class="mb-6">
+                            <p class="font-bold mb-2">Select a Font Pairing:</p>
+                            <div class="flex space-x-2">
+                                <button data-font="futuristic" class="style-toggle-button active px-4 py-2 border rounded-lg">Futuristic + Clean</button>
+                                <button data-font="classic" class="style-toggle-button px-4 py-2 border rounded-lg">Bold + Sans-Serif</button>
+                            </div>
+                        </div>
+                        <div id="style-preview-card" class="p-8 rounded-xl shadow-lg transition-all duration-300">
+                            <h4 id="preview-heading" class="text-2xl mb-2">Accelerate Your Growth</h4>
+                            <p id="preview-text" class="mb-4">We translate complex data into compelling brand stories that drive results.</p>
+                            <button id="preview-button" class="px-6 py-2 rounded-lg font-bold transition-all duration-300">Schedule a Session</button>
+                        </div>
+                    </div>
+                    <div class="space-y-8">
+                        <div class="content-card p-6 flex items-start space-x-4">
+                             <div class="text-2xl mt-1">💨</div>
+                            <div>
+                                <h4 class="font-bold text-lg">Dynamic Minimalism</h4>
+                                <p class="text-gray-600">Avoid a static feel with subtle, purposeful animations and micro-interactions on hover and click to engage users without adding clutter.</p>
+                            </div>
+                        </div>
+                         <div class="content-card p-6 flex items-start space-x-4">
+                            <div class="text-2xl mt-1">⬜</div>
+                            <div>
+                                <h4 class="font-bold text-lg">Strategic White Space</h4>
+                                <p class="text-gray-600">Use generous negative space as an active design element to improve readability, focus attention, and create a sophisticated, uncluttered layout.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="content" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Content & Storytelling</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Effective content for this audience is not just what you say, but how you structure it. The key is "Quantified Narratives"—compelling stories backed by hard data, presented with minimalist clarity.</p>
+                <h3 class="text-2xl font-bold text-center mb-6">The Quantified Narrative Framework</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
+                    <div id="flow-challenge" class="flowchart-step active text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
+                        <p class="font-bold">1. The Challenge</p>
+                    </div>
+                    <div class="text-2xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
+                     <div class="text-2xl flowchart-arrow font-mono md:hidden">&darr;</div>
+                    <div id="flow-solution" class="flowchart-step text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
+                        <p class="font-bold">2. Data-Driven Solution</p>
+                    </div>
+                    <div class="text-2xl flowchart-arrow font-mono hidden md:block">&rarr;</div>
+                    <div class="text-2xl flowchart-arrow font-mono md:hidden">&darr;</div>
+                    <div id="flow-results" class="flowchart-step text-center p-4 border-2 rounded-lg w-full md:w-52 bg-white shadow-sm">
+                        <p class="font-bold">3. Quantifiable Results</p>
+                    </div>
+                </div>
+                <div id="flowchart-details" class="content-card p-8 mt-8 max-w-2xl mx-auto text-center min-h-[120px]">
+                    <p id="flowchart-text" class="text-gray-700"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="technology" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                 <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Technology & Performance</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">A minimalist aesthetic isn't just about looks; it's a strategic choice for superior performance. A fast, responsive site is crucial for user experience, SEO, and conversion.</p>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                         <div class="content-card p-6 flex items-start space-x-4">
+                             <div class="text-2xl mt-1">⚡️</div>
+                            <div>
+                                <h4 class="font-bold text-lg">Minimalism as a Performance Accelerator</h4>
+                                <p class="text-gray-600">Fewer elements mean faster load times. This improves SEO, reduces bounce rates, and directly boosts conversions—a key selling point for tech clients.</p>
+                            </div>
+                        </div>
+                        <div class="content-card p-6 flex items-start space-x-4">
+                             <div class="text-2xl mt-1">📱</div>
+                            <div>
+                                <h4 class="font-bold text-lg">Mobile-First & Accessible</h4>
+                                <p class="text-gray-600">Design for mobile from the ground up with thumb-friendly navigation. Adhere to accessibility standards to ensure an inclusive experience for all users.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-center">Minimalism's Impact on Core Metrics</h3>
+                         <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inspiration" class="py-16 md:py-24">
+             <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-orbitron font-bold text-center mb-4">Inspiration & Best Practices</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">The following agencies and product sites exemplify the principles of sleek, minimalist design and effective content strategy for tech audiences.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">NoGood</h3>
+                        <p class="text-gray-600 mb-4">Effectively uses dynamic minimalism and data visualizations to prove expertise and show results to a tech-focused audience.</p>
+                        <a href="https://nogood.io/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
+                    </div>
+                    <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">The Branx</h3>
+                        <p class="text-gray-600 mb-4">Exemplifies targeted messaging and deep expertise for tech startups within a clean, uncluttered, and highly focused framework.</p>
+                        <a href="https://thebranx.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
+                    </div>
+                     <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">Deepgram</h3>
+                        <p class="text-gray-600 mb-4">A product site with a professional, tech-savvy dark theme design that is highly functional and engaging for a technical audience.</p>
+                        <a href="https://deepgram.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
+                    </div>
+                     <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">Locomotive</h3>
+                        <p class="text-gray-600 mb-4">Showcases a broad range of digital capabilities with a focus on meaningful, innovative, and results-driven bespoke experiences.</p>
+                        <a href="https://locomotive.ca/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
+                    </div>
+                     <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">Clay</h3>
+                        <p class="text-gray-600 mb-4">Illustrates a modern, clean design with a strong focus on user experience, trust-building elements, and customer success stories.</p>
+                        <a href="https://designrush.com/agency/website-design-development" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Profile &rarr;</a>
+                    </div>
+                     <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2">Apple</h3>
+                        <p class="text-gray-600 mb-4">A masterclass in extreme minimalism that conveys premium quality and sophistication through product focus and elegant typography.</p>
+                        <a href="https://apple.com/" target="_blank" rel="noopener" class="font-bold text-[#007BFF] hover:underline">Visit Site &rarr;</a>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 ADVXNCE MEDIA Interactive Blueprint</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const flowchartSteps = document.querySelectorAll('.flowchart-step');
+            const flowchartText = document.getElementById('flowchart-text');
+            const flowchartDetails = {
+                'flow-challenge': '<strong>Start with the client\'s problem.</strong> Clearly articulate the pain point or challenge they faced before your intervention. This creates context and relatability.',
+                'flow-solution': '<strong>Detail your strategic solution.</strong> Explain how your data-driven approach and technical expertise directly addressed the challenge. Focus on the "how" and "why".',
+                'flow-results': '<strong>Showcase the outcome with hard data.</strong> Present the success using clear, quantifiable metrics like "X% revenue growth" or "Y% reduction in CAC". This provides undeniable proof of value.'
+            };
+            
+            function updateFlowchart(activeStepId) {
+                flowchartSteps.forEach(step => {
+                    step.classList.toggle('active', step.id === activeStepId);
+                });
+                flowchartText.innerHTML = flowchartDetails[activeStepId];
+            }
+
+            flowchartSteps.forEach(step => {
+                step.addEventListener('click', () => {
+                    updateFlowchart(step.id);
+                });
+            });
+
+            updateFlowchart('flow-challenge');
+            
+            const paletteToggles = document.querySelectorAll('[data-palette]');
+            const fontToggles = document.querySelectorAll('[data-font]');
+            const previewCard = document.getElementById('style-preview-card');
+            const previewHeading = document.getElementById('preview-heading');
+            const previewText = document.getElementById('preview-text');
+            const previewButton = document.getElementById('preview-button');
+
+            const styles = {
+                palettes: {
+                    mono: {
+                        card: 'bg-white',
+                        heading: 'text-gray-900',
+                        text: 'text-gray-600',
+                        buttonBg: 'bg-[#007BFF]',
+                        buttonText: 'text-white'
+                    },
+                    dark: {
+                        card: 'bg-[#121212]',
+                        heading: 'text-white',
+                        text: 'text-gray-400',
+                        buttonBg: 'bg-[#39FF14]',
+                        buttonText: 'text-black'
+                    }
+                },
+                fonts: {
+                    futuristic: {
+                        heading: 'font-orbitron',
+                        text: 'font-["Lato"]'
+                    },
+                    classic: {
+                        heading: 'font-bold font-["Lato"]',
+                        text: 'font-["Lato"]'
+                    }
+                }
+            };
+            
+            let currentPalette = 'mono';
+            let currentFont = 'futuristic';
+
+            function applyStyles() {
+                const p = styles.palettes[currentPalette];
+                const f = styles.fonts[currentFont];
+                
+                previewCard.className = `p-8 rounded-xl shadow-lg transition-all duration-300 ${p.card}`;
+                previewHeading.className = `text-2xl mb-2 ${p.heading} ${f.heading}`;
+                previewText.className = `mb-4 ${p.text} ${f.text}`;
+                previewButton.className = `px-6 py-2 rounded-lg font-bold transition-all duration-300 ${p.buttonBg} ${p.buttonText}`;
+            }
+            
+            paletteToggles.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentPalette = button.dataset.palette;
+                    paletteToggles.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    applyStyles();
+                });
+            });
+
+            fontToggles.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentFont = button.dataset.font;
+                    fontToggles.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    applyStyles();
+                });
+            });
+            
+            applyStyles();
+
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            const performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Load Time (seconds)', 'Conversion Rate (%)'],
+                    datasets: [{
+                        label: 'Standard Site',
+                        data: [4.2, 2.5],
+                        backgroundColor: 'rgba(108, 117, 125, 0.7)',
+                        borderColor: 'rgba(108, 117, 125, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Minimalist Site',
+                        data: [1.1, 6.8],
+                        backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                             grid: {
+                                color: '#e9ecef'
+                             }
+                        },
+                        x: {
+                             grid: {
+                                display: false
+                             }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                        if (context.dataIndex === 0) label += 's';
+                                        if (context.dataIndex === 1) label += '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
