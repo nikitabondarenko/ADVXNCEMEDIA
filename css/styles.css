@@ -1,0 +1,70 @@
+/* ===== CSS VARIABLES ===== */
+:root {
+    --primary-accent: #00D4FF; /* Bright cyan for dark mode */
+    --dark-text: #FFFFFF; /* White text for dark mode */
+    --light-text: #B0B0B0; /* Light gray for secondary text */
+    --background-light: #0A0A0A; /* Very dark background */
+    --background-dark: #000000; /* Pure black for contrast elements */
+    --card-bg: #1A1A1A; /* Dark card background */
+    --border-color: #333333; /* Dark borders */
+    --section-bg: #111111; /* Slightly lighter than background */
+}
+
+/* ===== BASE STYLES ===== */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-light);
+    color: var(--dark-text);
+}
+
+.font-orbitron {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* ===== ACCENT COLORS ===== */
+.text-advxnce-accent {
+    color: var(--primary-accent);
+}
+
+.bg-advxnce-accent {
+    background-color: var(--primary-accent);
+}
+
+.hover\:text-advxnce-accent:hover {
+    color: var(--primary-accent);
+}
+
+.hover\:bg-advxnce-accent:hover {
+    background-color: var(--primary-accent);
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+    line-height: 1.1;
+}
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    .text-lg {
+        font-size: 1rem;
+    }
+}
+
+/* ===== RESPONSIVE UTILITIES ===== */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+} 
