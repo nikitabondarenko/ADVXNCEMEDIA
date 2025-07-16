@@ -122,13 +122,20 @@ function initializeAchievementCards() {
     const achievementsGrid = document.getElementById('achievements-grid');
     
     if (achievementsGrid && ACHIEVEMENTS_DATA) {
-        achievementsGrid.innerHTML = ACHIEVEMENTS_DATA.map((achievement, index) => `
-            <div class="achievement-card animate-stagger" style="animation-delay: ${index * 0.1}s;">
-                <h4 class="text-xl font-bold mb-3 text-white">${achievement.title}</h4>
-                <p class="text-gray-400 mb-4 leading-relaxed">${achievement.description}</p>
-                <div class="text-sm text-advxnce-accent font-medium">${achievement.tags}</div>
-            </div>
-        `).join('');
+        achievementsGrid.innerHTML = ACHIEVEMENTS_DATA.map((achievement, index) => {
+            const linksHtml = achievement.links ? achievement.links.map(link => 
+                `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="inline-block mr-3 mb-2 text-sm text-advxnce-accent hover:text-white transition-colors duration-300 underline">${link.text}</a>`
+            ).join('') : '';
+            
+            return `
+                <div class="achievement-card animate-stagger" style="animation-delay: ${index * 0.1}s;">
+                    <h4 class="text-xl font-bold mb-3 text-white">${achievement.title}</h4>
+                    <p class="text-gray-400 mb-4 leading-relaxed">${achievement.description}</p>
+                    <div class="text-sm text-advxnce-accent font-medium mb-3">${achievement.tags}</div>
+                    ${linksHtml ? `<div class="mt-3">${linksHtml}</div>` : ''}
+                </div>
+            `;
+        }).join('');
     }
 }
 

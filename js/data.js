@@ -4,32 +4,32 @@
 const SERVICES_DATA = [
     {
         icon: '🤝',
-        title: 'Community Building',
+        title: 'Community Management',
         description: 'Building and managing vibrant online communities that drive user engagement and loyalty. From Discord servers to social media groups, we create spaces where your audience connects and advocates for your brand.'
     },
     {
         icon: '📱',
-        title: 'Short-Form Video Content Creation',
+        title: 'Short-Form Video Production',
         description: 'Creating engaging TikTok, Instagram Reels, and YouTube Shorts content that drives viral engagement. We\'ve helped clients achieve 100x engagement increases through strategic short-form video campaigns.'
     },
     {
         icon: '🏢',
-        title: 'Local Business Online Presence',
+        title: 'Local Business SEO & Online Presence',
         description: 'Optimizing online visibility for local businesses. From SEO and Google My Business optimization to social media management, we help businesses compete in the digital age.'
     },
     {
         icon: '📢',
-        title: 'Influencer Content Strategy',
+        title: 'Influencer Strategy & Content Creation',
         description: 'Developing content strategies for social media influencers and creators. We help influencers with 5K+ followers scale their reach and monetize their audience effectively.'
     },
     {
         icon: '🚀',
-        title: 'Product-Led Growth',
+        title: 'Product-Led Growth Consulting',
         description: 'Advising early-stage SaaS and AI startups on growth strategies that integrate marketing with product development. We understand the technical product landscape and can translate complex offerings into compelling marketing.'
     },
     {
         icon: '📊',
-        title: 'Data-Driven Marketing Analytics',
+        title: 'Marketing Analytics & Optimization',
         description: 'Using advanced analytics and A/B testing to optimize every campaign. Our data science background enables us to track performance, identify opportunities, and maximize your marketing ROI.'
     }
 ];
@@ -39,32 +39,39 @@ const ACHIEVEMENTS_DATA = [
     {
         title: 'Stems Labs: Music Tech App Growth',
         description: 'Co-founded and led growth for a music creation app, scaling to <strong>tens of thousands of users</strong> and securing <strong>$4M in funding</strong> (reaching $30M valuation). Built a <strong>5K-member Discord community</strong> of music producers, achieved 2M+ Instagram views, and improved retention by <strong>300%</strong> through data-driven optimization.',
-        tags: '#CommunityBuilding #UserAcquisition #VentureGrowth'
+        tags: 'Community Building • User Acquisition • Venture Growth',
+        links: [
+            { text: 'Funding Article', url: 'https://medium.com/@metafihack/stems-raises-4-million-in-pre-seed-round-c7e500c5d2f6' },
+            { text: 'App Store', url: 'https://apps.apple.com/us/app/lowkey/id6667115190' }
+        ]
     },
     {
         title: 'Haystack: Local Business Online Presence',
         description: 'Helped <strong>millions of local businesses</strong> improve their online presence by scaling a product search engine nationwide. Integrated data from <strong>2M+ local stores</strong> and used machine learning to reduce product identification errors from <strong>20% to under 2%</strong>, significantly improving local business discoverability.',
-        tags: '#LocalBusiness #DataScience #OnlinePresence'
+        tags: 'Local Business • Data Science • Online Presence',
+        links: [
+            { text: 'Visit Haystack', url: 'https://haystack.co/' }
+        ]
     },
     {
-        title: 'Current: AI SaaS Startup Growth',
-        description: 'Currently advising on growth strategies and content creation for an early-stage AI SaaS startup, directly contributing to user acquisition and brand development for cutting-edge AI solutions.',
-        tags: '#AISaaS #GrowthStrategy #ContentCreation'
+        title: 'AI SaaS Startup Growth',
+        description: 'Advised on growth strategies and content creation for an early-stage AI SaaS startup, directly contributing to user acquisition and brand development for cutting-edge AI solutions.',
+        tags: 'AI SaaS • Growth Strategy • Content Creation'
     },
     {
-        title: 'Current: Influencer Content Creation',
-        description: 'Creating content for a TikTok + Instagram influencers with <strong>5,000+ followers</strong>, developing engaging short-form video content and social media strategies to expand reach and engagement. Also worked with musicians to build their online presence and connect with audiences',
-        tags: '#InfluencerMarketing #ContentCreation #SocialMedia'
+        title: 'Influencer Content Creation',
+        description: 'Created content for TikTok + Instagram influencers with <strong>5,000+ followers</strong>, developing engaging short-form video content and social media strategies to expand reach and engagement. Also worked with musicians to build their online presence and connect with audiences',
+        tags: 'Influencer Marketing • Content Creation • Social Media'
     },
     {
         title: 'Nonprofit Support',
         description: 'Helped nonprofits expand their reach and raise funds through strategic digital marketing campaigns.',
-        tags: '#Nonprofit #MusicIndustry #DigitalMarketing'
+        tags: 'Nonprofit • Music Industry • Digital Marketing'
     },
     {
-        title: 'Local Sports Team: Engagement Boost',
-        description: 'Elevated social media presence for a local sports team by boosting engagement on posts by <strong>nearly 100x</strong> through strategic short-form video content creation and social media optimization.',
-        tags: '#ShortFormVideo #SocialMedia #Engagement'
+        title: 'Sports Team: Engagement Boost',
+        description: 'Elevated social media presence for a sports team by boosting engagement on posts by <strong>nearly 100x</strong> through strategic short-form video content creation and social media optimization.',
+        tags: 'Short Form Video • Social Media • Engagement'
     }
 ];
 
