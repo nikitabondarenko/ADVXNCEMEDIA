@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+        }
+        .og-image {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .logo {
+            font-size: 72px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .logo .accent {
+            color: #3B82F6;
+        }
+        .tagline {
+            font-size: 48px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .tagline-accent {
+            background: linear-gradient(90deg, #3B82F6 0%, #6366F1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 24px;
+            color: #9CA3AF;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .accent-line {
+            width: 400px;
+            height: 4px;
+            background: linear-gradient(90deg, #3B82F6 0%, #6366F1 100%);
+            margin: 20px 0;
+            opacity: 0.6;
+        }
+        .url {
+            font-size: 20px;
+            color: #6B7280;
+            text-align: center;
+        }
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #3B82F6 0%, #6366F1 100%);
+            opacity: 0.1;
+        }
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            top: 50px;
+            left: 100px;
+        }
+        .circle-2 {
+            width: 160px;
+            height: 160px;
+            bottom: 50px;
+            right: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-image">
+        <div class="decorative-circle circle-1"></div>
+        <div class="decorative-circle circle-2"></div>
+        
+        <div class="logo">
+            ADV<span class="accent">X</span>NCE
+        </div>
+        
+        <div class="tagline">
+            Strategic Growth for<br>
+            <span class="tagline-accent">Modern Innovators</span>
+        </div>
+        
+        <div class="subtitle">
+            10x Marketing Services in the Age of AI
+        </div>
+        
+        <div class="accent-line"></div>
+        
+        <div class="url">
+            www.advxncemedia.com
+        </div>
+    </div>
+</body>
+</html> 
