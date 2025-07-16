@@ -369,10 +369,76 @@ p {
         padding: 1.25rem;
     }
     
+    .achievement-card {
+        padding: 1.25rem;
+    }
+    
     .btn-primary,
     .btn-secondary {
-        padding: 0.625rem 1.25rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Improve mobile typography */
+    h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+    
+    /* Better mobile spacing */
+    .section-padding {
+        padding: 3rem 0;
+    }
+    
+    /* Improve mobile grid spacing */
+    .grid-cols-1,
+    .grid-cols-2,
+    .grid-cols-3 {
+        gap: 1rem;
+    }
+    
+    /* Better mobile button spacing */
+    .space-y-3 > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    /* Improve mobile navigation */
+    .nav-link {
+        font-size: 0.875rem;
+        padding: 0.75rem 0;
+    }
+    
+    /* Better mobile achievement links */
+    .achievement-card a {
+        display: inline-block;
+        margin-right: 0.75rem;
+        margin-bottom: 0.5rem;
         font-size: 0.8125rem;
+        padding: 0.25rem 0;
+    }
+    
+    /* Improve mobile text readability */
+    .text-gray-400 {
+        line-height: 1.6;
+    }
+    
+    /* Better mobile card spacing */
+    .achievement-card,
+    .service-card,
+    .content-card {
+        margin-bottom: 1rem;
     }
 }
 

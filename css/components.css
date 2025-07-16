@@ -360,13 +360,61 @@
     }
     
     .btn-modern {
-        padding: 0.625rem 1.25rem;
-        font-size: 0.8125rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+        width: 100%;
+        justify-content: center;
     }
     
     .flowchart-step {
-        padding: 0.875rem;
+        padding: 1rem;
+        font-size: 0.875rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Improve mobile flowchart layout */
+    .flowchart-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    /* Better mobile metric cards */
+    .metric-card {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Improve mobile service icons */
+    .service-icon {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Better mobile text sizing */
+    .text-base {
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+    
+    .text-sm {
         font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+    
+    /* Improve mobile spacing */
+    .space-y-4 > * + * {
+        margin-top: 1rem;
+    }
+    
+    .space-y-6 > * + * {
+        margin-top: 1.5rem;
+    }
+    
+    /* Better mobile container padding */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }
 
